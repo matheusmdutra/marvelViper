@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Detail Pop Up-->
+        <scene sceneID="Abx-yA-1jQ">
+            <objects>
+                <viewController storyboardIdentifier="DetailPopUp" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jXl-d0-gXi" customClass="DetailPopUp" customModule="MarvelApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="TEk-qS-W3a">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="420"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="v2x-LR-HI4"/>
+                    </view>
+                    <size key="freeformSize" width="300" height="420"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xM0-tV-IsZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-202" y="167"/>
+        </scene>
+    </scenes>
+</document>
