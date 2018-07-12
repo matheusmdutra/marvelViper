@@ -19,33 +19,11 @@ class CollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var characterImageView : UIImageView = {
-        let myView = UIImageView()
-        myView.image = nil
-        myView.contentMode = .scaleAspectFill
-        myView.clipsToBounds = true
-        myView.translatesAutoresizingMaskIntoConstraints = false
-        return myView
-    }()
+    var characterImageView = GlobalComponents().createImageViewWith(image: nil, contentMode: .scaleAspectFill)
     
-    let characterLabel : UILabel = {
-        let myCharacterLabel = UILabel()
-        myCharacterLabel.text = "Spider-Men"
-        myCharacterLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        myCharacterLabel.textColor = UIColor.black
-        myCharacterLabel.textAlignment = .left
-        myCharacterLabel.adjustsFontSizeToFitWidth = false
-        myCharacterLabel.lineBreakMode = NSLineBreakMode.byTruncatingTail
-        myCharacterLabel.translatesAutoresizingMaskIntoConstraints = false
-        return myCharacterLabel
-    }()
+    let characterLabel = GlobalComponents().createSimpleLabel(text: "", textColor: .black, font: .normal)
     
-    let grayView : UIView = {
-        let myGrayView = UIView()
-        myGrayView.backgroundColor = UIColor.myWhiteColor
-        myGrayView.translatesAutoresizingMaskIntoConstraints = false
-        return myGrayView
-    }()
+    let grayView = GlobalComponents().createViewWith(backgroundColor: .myWhiteColor)
     
     func setupLayout() {
         addSubview(characterImageView)

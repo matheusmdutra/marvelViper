@@ -12,7 +12,6 @@ import Alamofire
 class MarvelDataManager {
     
     func fetchCharacters(filtered: Bool, text: String? , success: @escaping (_ characters: [MarvelData?]) -> Void  , failure: ((_ error: String?) -> Void)?) {
-        
         let url = Constants.marvelURL + Constants.characters
         var params = [String:Any]()
         
@@ -31,19 +30,15 @@ class MarvelDataManager {
                 do {
                     let marvelCharacters = try JSONDecoder().decode(APIResponse.self, from: response.data!)
                     marvelCharacters.data?.results?.forEach { marvelResponse in
-                        var newCharacters = self.transformApiData(data: marvelResponse)
-                        
+                        let newCharacters = self.transformApiData(data: marvelResponse)
                         allCharacters.append(newCharacters!)
                     }
-                    
                     success(allCharacters)
                 } catch let jsonErr {
-                    
                     failure!(String(describing: jsonErr)
                     )}
                 
             }, failure: {(error) in
-                
                 failure!(error)
             })
         }
@@ -54,11 +49,11 @@ class MarvelDataManager {
     func transformApiData(data: CharactersInfo) -> MarvelData? {
         
         let url = URL(string: data.thumbnail.map {$0.path}!! + ".jpg")
-        var descriptionUrl = data.urls?.first?.url
-        var newCharacter = MarvelData(name: data.name, url: url, description: data.description, urlDescription: descriptionUrl)
-        
+        let descriptionUrl = data.urls?.first?.url
+        let newCharacter = MarvelData(name: data.name, url: url, description: data.description, urlDescription: descriptionUrl)
+    
         return newCharacter
-        
+
     }
     
     let normalParams  = [

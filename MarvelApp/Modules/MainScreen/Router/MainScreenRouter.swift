@@ -18,14 +18,14 @@ class MainScreenRouter {
     // MARK: Static methods
 
     static func setupModule() -> MainScreenViewController {
-        let viewController = UIStoryboard.loadViewController() as MainScreenViewController
+        let viewController =  MainScreenViewController()
         let presenter = MainScreenPresenter()
         let router = MainScreenRouter()
         let interactor = MainScreenInteractor()
 
         viewController.presenter =  presenter
 
-        presenter.view = viewController as! MainScreenView
+        presenter.view = viewController as MainScreenView
         presenter.router = router
         presenter.interactor = interactor
 

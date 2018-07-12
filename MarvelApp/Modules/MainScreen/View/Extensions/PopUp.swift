@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Nuke
 extension MainScreenViewController {
-
+    
     func retrivingAttributedText(description: String, characterName: String) -> NSAttributedString {
         let attributedText = NSMutableAttributedString(string: "Character: \(characterName)\n\n" , attributes: [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: 18), NSAttributedStringKey.foregroundColor : UIColor.white ])
         
@@ -23,73 +23,16 @@ extension MainScreenViewController {
         visualEffectView.alpha = 0
         view.addSubview(visualEffectView)
         visualEffectView.frame = view.bounds
-        popUpEntireView.alpha = 0
-        view.addSubview(popUpEntireView)
+        popUp!.alpha = 0
+        view.addSubview(popUp!)
         animateView()
-        //
-        popUpEntireView.addSubview(popUpTopImageView)
-        popUpEntireView.addSubview(popUpmiddleView)
-        popUpEntireView.addSubview(popUpbottomView)
-        //
-        popUpmiddleView.addSubview(popUpmiddleTextView)
-        //
-        popUpbottomView.addSubview(popUpSepareteView)
-        popUpbottomView.addSubview(popUpbackButton)
-        popUpbottomView.addSubview(popUpsiteButton)
-        //)
-        
-        NSLayoutConstraint.activate([
-            
-            // PopUp Constrain
-            popUpEntireView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.7),
-            popUpEntireView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
-            popUpEntireView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            popUpEntireView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            // TopView Constrain
-            popUpTopImageView.topAnchor.constraint(equalTo: popUpEntireView.topAnchor),
-            popUpTopImageView.trailingAnchor.constraint(equalTo: popUpEntireView.trailingAnchor),
-            popUpTopImageView.leadingAnchor.constraint(equalTo: popUpEntireView.leadingAnchor),
-            popUpTopImageView.heightAnchor.constraint(equalTo: popUpEntireView.heightAnchor, multiplier: 0.35),
-            
-            // MiddleView Constrain
-            popUpmiddleView.topAnchor.constraint(equalTo: popUpTopImageView.bottomAnchor),
-            popUpmiddleView.trailingAnchor.constraint(equalTo: popUpEntireView.trailingAnchor),
-            popUpmiddleView.leadingAnchor.constraint(equalTo: popUpEntireView.leadingAnchor),
-            popUpmiddleView.heightAnchor.constraint(equalTo: popUpEntireView.heightAnchor, multiplier: 0.55),
-            
-            // PopUpMiddleTextView
-            popUpmiddleTextView.topAnchor.constraint(equalTo: popUpmiddleView.topAnchor, constant: 10),
-            popUpmiddleTextView.trailingAnchor.constraint(equalTo: popUpEntireView.trailingAnchor, constant: -5),
-            popUpmiddleTextView.leadingAnchor.constraint(equalTo: popUpEntireView.leadingAnchor, constant: 5),
-            popUpmiddleTextView.bottomAnchor.constraint(equalTo: popUpmiddleView.bottomAnchor, constant: 10),
-            
-            // BottomView Constrain
-            popUpbottomView.topAnchor.constraint(equalTo: popUpmiddleView.bottomAnchor),
-            popUpbottomView.trailingAnchor.constraint(equalTo: popUpEntireView.trailingAnchor),
-            popUpbottomView.leadingAnchor.constraint(equalTo: popUpEntireView.leadingAnchor),
-            popUpbottomView.heightAnchor.constraint(equalTo: popUpEntireView.heightAnchor, multiplier: 0.10),
-            
-            // Adding Separeter View
-            popUpSepareteView.topAnchor.constraint(equalTo: popUpmiddleView.bottomAnchor),
-            popUpSepareteView.centerXAnchor.constraint(equalTo: popUpbottomView.centerXAnchor),
-            popUpSepareteView.bottomAnchor.constraint(equalTo: popUpbottomView.bottomAnchor),
-            popUpSepareteView.widthAnchor.constraint(equalToConstant: 1),
-            
-            // Adding Two Buttons
-            popUpbackButton.centerYAnchor.constraint(equalTo: popUpbottomView.centerYAnchor),
-            popUpbackButton.trailingAnchor.constraint(equalTo: popUpSepareteView.leadingAnchor, constant: -10),
-            popUpbackButton.leadingAnchor.constraint(equalTo: popUpbottomView.leadingAnchor, constant: 10),
-            
-            popUpsiteButton.centerYAnchor.constraint(equalTo: popUpbottomView.centerYAnchor),
-            popUpsiteButton.trailingAnchor.constraint(equalTo: popUpbottomView.trailingAnchor, constant: -10),
-            popUpsiteButton.leadingAnchor.constraint(equalTo: popUpSepareteView.trailingAnchor, constant: 10),
-            
-            ])
     }
     
     func updateUI(_ row: Int, _ filter: Bool){
         var currentCharacter : MarvelData!
+        var image : UIImage?
+        var text : NSAttributedString?
+        
         if filter {
             currentCharacter = filteredCharacters[row]
         }
@@ -100,34 +43,51 @@ extension MainScreenViewController {
         if currentCharacter.urlDescription != nil {
             urlToGo = currentCharacter.urlDescription
         }
-        var stringUrl = String(describing: currentCharacter.characterUrl)
-        var myBool = stringUrl.contains("image_not_available")
+        let stringUrl = String(describing: currentCharacter.characterUrl)
+        let myBool = stringUrl.contains("image_not_available")
         
         // Updating Image
         if currentCharacter.characterUrl != nil && !myBool {
-            popUpTopImageView.image = nil
-            Nuke.Manager.shared.loadImage(with: currentCharacter.characterUrl!, into: popUpTopImageView)
+            image = nil
+            let imageView = UIImageView()
+            Nuke.Manager.shared.loadImage(with: currentCharacter.characterUrl!, into: imageView)
+            image = imageView.image
         }
-        else {
-            popUpTopImageView.image = #imageLiteral(resourceName: "marvel-1")
-        }
+        else { image = #imageLiteral(resourceName: "marvel-1") }
         // Updating Text
         if (currentCharacter.description?.count)! > 5 {
-            var myAttributtedText = retrivingAttributedText(description: currentCharacter.description!, characterName: currentCharacter.characterName!)
-            popUpmiddleTextView.attributedText = myAttributtedText
+            text = retrivingAttributedText(description: currentCharacter.description!, characterName: currentCharacter.characterName!)
         }
         else {
-            var myAttributtedText = retrivingAttributedText(description: "No description avaliable :/", characterName: currentCharacter.characterName!)
-            popUpmiddleTextView.attributedText = myAttributtedText
+            text = retrivingAttributedText(description: "No description avaliable :/", characterName: currentCharacter.characterName!)
         }
+        popUp = CustomPopUp(view: view, text: text!, image: image ?? nil, source: self).popUpView()
     }
     
     func animateView() {
         UIView.animate(withDuration: 0.4) {
             self.visualEffectView.alpha = 1
-            self.popUpEntireView.alpha = 1
+            self.popUp!.alpha = 1
         }
     }
+    
+    @objc func dismissPopUp() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.popUp!.alpha = 0
+            self.visualEffectView.alpha = 0
+        })
+        { (success:Bool) in
+            self.popUp!.removeFromSuperview()
+            self.visualEffectView.removeFromSuperview()
+        }
+    }
+    
+    @objc func goToWebSite() {
+        UIView.animate(withDuration: 0.3) {
+            UIApplication.shared.openURL(NSURL(string: self.urlToGo!)! as URL)
+        }
+    }
+    
 }
 
 

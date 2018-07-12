@@ -12,7 +12,6 @@ import Nuke
 
 extension MainScreenViewController : UICollectionViewDelegate, UICollectionViewDataSource  {
     
-    
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
@@ -52,8 +51,8 @@ extension MainScreenViewController : UICollectionViewDelegate, UICollectionViewD
         if myCharacters.count > 0 && !searchActive {
             cell.characterLabel.text = myCharacters[indexPath.item].characterName
             
-            var stringUrl = String(describing: myCharacters[indexPath.item].characterUrl)
-            var myBool = stringUrl.contains("image_not_available")
+            let stringUrl = String(describing: myCharacters[indexPath.item].characterUrl)
+            let myBool = stringUrl.contains("image_not_available")
             if myCharacters[indexPath.item].characterUrl != nil && !myBool {
                 
                 cell.characterImageView.image = nil
@@ -78,19 +77,15 @@ extension MainScreenViewController : UICollectionViewDelegate, UICollectionViewD
         
         if searchActive {
             cell.characterLabel.text = filteredCharacters[indexPath.item].characterName
-            var stringUrl = String(describing: filteredCharacters[indexPath.item].characterUrl)
-            var myBool = stringUrl.contains("image_not_available")
-            
+            let stringUrl = String(describing: filteredCharacters[indexPath.item].characterUrl)
+            let myBool = stringUrl.contains("image_not_available")
             if filteredCharacters[indexPath.item].characterUrl != nil && !myBool {
-                
                 cell.characterImageView.image = nil
-                
                 Nuke.Manager.shared.loadImage(with: filteredCharacters[indexPath.item].characterUrl!) { (result) in
                     if result.error != nil {
                         cell.characterImageView.image = #imageLiteral(resourceName: "marvel-1")
                     }
                     else {
-                        
                         cell.characterImageView.image = result.value
                     }
                 }
@@ -99,9 +94,7 @@ extension MainScreenViewController : UICollectionViewDelegate, UICollectionViewD
                 cell.characterImageView.image = nil
                 cell.characterImageView.image = #imageLiteral(resourceName: "marvel-1")
             }
-            
         }
-        
         cell.backgroundColor = UIColor.myRedColor
         cell.layer.borderWidth = 1.5
         cell.layer.borderColor = UIColor.black.cgColor
@@ -109,8 +102,6 @@ extension MainScreenViewController : UICollectionViewDelegate, UICollectionViewD
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         presentCharacterInfo(view: self.view, forRow: indexPath.row, filtered: searchActive)
-
     }
 }
